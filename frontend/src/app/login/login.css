@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.image-section {
+  flex: 1;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-section {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+h1 {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+p {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input.btn {
+  width: 220px;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  outline: none;
+}
+
+.btn {
+  width: 220px;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-login {
+  background-color: #7a1cff;
+  color: white;
+}
+
+.btn-return {
+  background-color: #ff5c5c;
+  color: white;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #7a1cff;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 12px;
+}

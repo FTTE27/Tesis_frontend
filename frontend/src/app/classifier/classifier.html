@@ -1,0 +1,25 @@
+<div class="flex flex-col min-h-screen">
+  <app-header></app-header>
+
+  <main class="flex-1 bg-gray-100 p-6 flex flex-col items-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 flex">
+      <img src="assets/home-image.jpg" alt="Temp" class="w-96 h-auto rounded">
+      <div class="ml-6 space-y-4">
+        <div *ngFor="let prob of probabilities" class="flex items-center">
+          <div class="bg-purple-700 text-white rounded-full w-16 h-16 flex items-center justify-center text-xl font-bold">
+            {{ prob.value }}%
+          </div>
+          <span class="ml-4 text-gray-700 font-medium">{{ prob.text }}</span>
+        </div>
+        <button class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 w-full">
+          Look at the Heat Map
+        </button>
+        <button class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 w-full">
+          Download
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
