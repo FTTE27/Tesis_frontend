@@ -13,6 +13,9 @@ export class Header {
   goHome() {
     this.router.navigate(['/']);
   }
+  goUpload() {
+    this.router.navigate(['/upload']);
+  }
   goClassify() {
     this.router.navigate(['/classifier']);
   }

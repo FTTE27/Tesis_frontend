@@ -1,17 +1,29 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  standalone: true,
+  imports: [FormsModule,
+     CommonModule
+    ], 
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
+  username: string = '';
+  password: string = '';
+
   constructor(private router: Router) {}
 
   goToClassifier() {
-    this.router.navigate(['/classifier']);
+    if (this.username === 'admin' && this.password === '1234') {
+      this.router.navigate(['/management']);
+    } else {
+      this.router.navigate(['/classifier']);
+    }
   }
 
   goToReturn() {

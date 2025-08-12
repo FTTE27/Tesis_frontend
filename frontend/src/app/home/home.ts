@@ -15,7 +15,7 @@ export class Home {
   }
 
   goToGuest() {
-    this.router.navigate(['/classifier']);
+    this.router.navigate(['/upload']);
   }
 
 }

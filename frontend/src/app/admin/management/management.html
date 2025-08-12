@@ -1,0 +1,62 @@
+<app-header-admin></app-header-admin>
+<div class="management-container">
+ 
+  <div class="card">
+    <h2>Account Management</h2>
+    <p>Manage your user accounts.</p>
+    <hr>
+
+    <section>
+      <h3>Create account</h3>
+      <input type="text" placeholder="Name">
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button class="btn-primary">Save</button>
+    </section>
+
+    <hr>
+
+    <section>
+      <h3>Modify account</h3>
+      <select>
+        <option>Username</option>
+      </select>
+      <div class="btn-group">
+        <button class="btn-primary">Reset</button>
+        <button class="btn-secondary">Delete</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="card">
+    <h2>Model Configuration</h2>
+    <p>Adjust the classification model.</p>
+    <hr>
+
+    <section>
+      <select>
+        <option>Actual model</option>
+      </select>
+      <button class="btn-primary">Upload</button>
+    </section>
+
+    <hr>
+
+    <section>
+      <h3>Language</h3>
+      <p>Change the language of the application</p>
+      <div class="language-options">
+        <label><input type="radio" name="lang"> Español</label>
+        <label><input type="radio" name="lang" checked> English</label>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="logout">
+      <h3>Log out</h3>
+      <p>Exit your account</p>
+      <button class="btn-icon" (click)="goToHome()">⎋</button>
+    </section>
+  </div>
+</div>

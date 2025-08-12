@@ -1,0 +1,135 @@
+.management-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 30px;
+  background-color: white;
+}
+
+.card {
+  background-color: #bdbdbd;
+  padding: 20px 25px;
+  width: 320px;
+  border-radius: 6px;
+}
+
+.card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #999;
+  margin: 10px 0 15px 0;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+input[type="text"], input[type="password"], select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border: 1px solid #6a0dad;
+}
+
+button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-primary {
+  background-color: #6a0dad;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #580c9e;
+}
+
+.btn-secondary {
+  background-color: #d9d9d9;
+  color: black;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+
+.logout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-icon {
+  background-color: #6a0dad;
+  color: white;
+  font-size: 20px;
+  width: 50px;      
+  height: 50px;     
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-icon:hover {
+  background-color: #580c9e;
+}
+
+.language-options {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.language-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6a0dad;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+input[type="radio"]:checked {
+  background-color: #6a0dad;
+}
