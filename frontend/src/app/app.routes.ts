@@ -12,6 +12,7 @@ import { HeaderAdmin } from './admin/header-admin/header-admin';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  
 import { NgModule } from '@angular/core';
+import { Records } from './admin/records/records';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -20,4 +21,5 @@ export const routes: Routes = [
     { path: 'upload', component: Upload },
     { path: 'support', component: Support },
     { path: 'management', component: Management },
+    { path: 'records', component: Records}
 ];
