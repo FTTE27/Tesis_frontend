@@ -1,0 +1,47 @@
+    <!-- Aquí va tu HEADER component -->
+    <app-header-admin></app-header-admin>
+
+    <div class="flex items-center m-4 max-w-md">
+        <button class="px-4 py-2 bg-blue-500 text-white rounded-l-full hover:bg-blue-600">
+          🔍
+        </button>
+        <input type="text" placeholder="Buscar..."
+               class="flex-1 px-4 py-2 border border-gray-300 rounded-r-full focus:outline-none" />
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Panel izquierdo -->
+        <div class="w-1/3 bg-gray-300 p-4">
+          <h2 class="font-bold mb-4">Comments</h2>
+          
+         <!-- @for (Angular 17+) itera el array comments del componente y en cada vuelta expone el elemento como item. -->
+          <!-- (click)="selectComment(item)" es data binding de evento: al hacer clic, Angular llama al método selectComment 
+           del componente y le pasa ese item. En tu .ts estableces this.selectedComment = item;, y con eso se actualiza el panel derecho.-->
+          @for (item of comments; track $index) {
+            <div 
+              (click)="selectComment(item)"
+              class="cursor-pointer bg-white shadow rounded-lg p-3 mb-3 hover:bg-gray-100 transition">
+              
+              <p class="font-semibold text-gray-900">{{ item.titulo }}</p>
+              <p class="text-sm text-gray-500">{{ item.nombre }}</p>
+              <p class="text-xs text-gray-400">{{ item.correo }}</p> <!-- 👈 aquí mostramos correo -->
+            </div>
+          } @empty {
+            <p class="text-gray-400 italic">No comments yet.</p>
+          }
+        </div>
+      
+        <!-- Panel derecho -->
+        <div class="w-2/3 p-6">
+          @if (selectedComment) {
+            <h2 class="text-xl font-bold mb-2">{{ selectedComment.titulo }}</h2>
+            <p class="text-gray-600 mb-1">By {{ selectedComment.nombre }}</p>
+            <p class="text-gray-500 text-sm mb-4">{{ selectedComment.correo }}</p> <!-- 👈 correo en detalle -->
+            <p class="text-gray-800">{{ selectedComment.mensaje }}</p>
+          } @else {
+            <p class="text-gray-400 italic">Select a comment to view details</p>
+          }
+        </div>
+      </div>
+      
+      

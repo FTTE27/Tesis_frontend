@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+  }
+  
+  .left-box {
+    width: 30%;
+    background-color: #e3e3e3; /* gris claro para diferenciar */
+    padding: 20px;
+  }
+  
+  .right-box {
+    width: 70%;
+    background-color: #cce5ff; /* azul claro */
+    padding: 20px;
+  }
+  
