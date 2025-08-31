@@ -14,6 +14,6 @@ export class Management {
   constructor(private router: Router) {}
 
   goToHome() {
-    this.router.navigate(['/l']);
+    this.router.navigate(['/']);
   }
 }

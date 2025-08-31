@@ -20,9 +20,9 @@ export class Login {
 
   goToClassifier() {
     if (this.username === 'admin' && this.password === '1234') {
-      this.router.navigate(['/management']);
+      this.router.navigate(['/records']);
     } else {
-      this.router.navigate(['/classifier']);
+      this.router.navigate(['/upload']);
     }
   }
 
