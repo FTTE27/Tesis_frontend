@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-support',
-  imports: [Header, Footer],
+  imports: [Header, Footer, CommonModule, ReactiveFormsModule],
   templateUrl: './support.html',
   styleUrl: './support.css'
 })
@@ -31,29 +32,31 @@ export class Support implements OnInit {
   }
 
   onSubmit() {
-    if (this.contactForm.invalid) return;
+  if (this.contactForm.invalid) return;
 
-    const formData = new FormData();
-    formData.append('name', this.contactForm.get('name')?.value);
-    formData.append('email', this.contactForm.get('email')?.value);
-    formData.append('title', this.contactForm.get('title')?.value);
-    formData.append('message', this.contactForm.get('message')?.value);
-
+  const formData = {
+    nombre: this.contactForm.get('name')?.value,
+    titulo: this.contactForm.get('title')?.value,
+    correo: this.contactForm.get('email')?.value,
+    mensaje: this.contactForm.get('message')?.value
+  };
+/*
     if (this.selectedFile) {
       formData.append('file', this.selectedFile);
     }
+*/
+  this.http.post('http://192.168.1.4:8000/comentarios', formData).subscribe({
+    next: (res) => {
+      console.log('Formulario enviado:', res);
+      alert('Formulario enviado correctamente');
+      this.contactForm.reset();
+      this.selectedFile = null;
+    },
+    error: (err) => {
+      console.error('Error al enviar:', err);
+      alert('Hubo un problema al enviar el formulario');
+    }
+  });
+}
 
-    this.http.post('http://localhost:8000/comentarios', formData).subscribe({
-      next: (res) => {
-        console.log('Formulario enviado:', res);
-        alert('Formulario enviado correctamente ');
-        this.contactForm.reset();
-        this.selectedFile = null;
-      },
-      error: (err) => {
-        console.error('Error al enviar:', err);
-        alert('Hubo un problema al enviar el formulario');
-      }
-    });
-  }
 }

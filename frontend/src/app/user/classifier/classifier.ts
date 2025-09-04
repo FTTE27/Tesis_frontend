@@ -33,7 +33,7 @@ export class Classifier {
 
         this.probabilities = [
           { value: Math.round(probs['VIR_PNEUMONIA'] * 100), text: `Probability of Viral Pneumonia: ${Math.round(probs['VIR_PNEUMONIA'] * 100)}%` },
-          { value: Math.round(probs['BAC_NEUMONIA'] * 100), text: `Probability of Bacterial Pneumonia: ${Math.round(probs['BAC_PNEUMONIA'] * 100)}%` },
+          { value: Math.round(probs['BAC_PNEUMONIA'] * 100), text: `Probability of Bacterial Pneumonia: ${Math.round(probs['BAC_PNEUMONIA'] * 100)}%` },
           { value: Math.round(probs['NORMAL'] * 100), text: `Probability of being Normal: ${Math.round(probs['NORMAL'] * 100)}%` }
         ];
 
