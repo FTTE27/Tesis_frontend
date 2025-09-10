@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 // Estructura exacta de lo que esperamos del backend al iniciar sesión.
 interface LoginResponse {
@@ -15,7 +15,7 @@ interface LoginResponse {
 })
 
 export class LoginService {
-    private apiUrl = 'http://localhost:8000/auth/login'; // URL donde corre el backend FastAPI
+    private apiUrl = 'http://localhost:8000/auth'; // URL donde corre el backend FastAPI
 
      // Inyectamos HttpClient por constructor (DI de Angular)
     constructor(private http: HttpClient) {}
@@ -35,16 +35,46 @@ export class LoginService {
     // Hacemos la petición POST al backend y usamos catchError para mapear el error a un mensaje legible.
     // retorna un Observable tipado con LoginResponse.
     return this.http.post<LoginResponse>(this.apiUrl, body.toString(), { headers }).pipe(
-        catchError(this.handleError)
+      tap((res: LoginResponse) => {
+        // Guardamos el token en localStorage
+        localStorage.setItem('token', res.access_token);
+        localStorage.setItem('rol', res.rol);
+      }),
+      catchError(this.handleError)
       );
     } 
 
+    //logout
+    logout(): Observable<any> {
+      return this.http.post(`${this.apiUrl}/logout`, {}, {}).pipe(
+        tap(() => {
+          // Limpiar storage del navegador
+          localStorage.removeItem('token');
+          localStorage.removeItem('rol');
+        })
+      );
+    }
+
+  
     // Manejo de error del login
     private handleError(error: HttpErrorResponse) {
-        let msg = 'Usuario o contraseña incorrectos'; // Mensaje por defecto
-        if (error.error && error.error.detail) {
-          msg = error.error.detail; // Lo que devuelves en FastAPI (ej. "Usuario incorrecto" o "Contraseña incorrecta")
-        }
-        return throwError(() => msg);
+      let msg = 'Usuario o contraseña incorrectos'; // Mensaje por defecto
+      if (error.error && error.error.detail) {
+        msg = error.error.detail; // Lo que devuelves en FastAPI (ej. "Usuario incorrecto" o "Contraseña incorrecta")
       }
+      return throwError(() => msg);
+    }
+    
+    // Métodos auxiliares para manejar el token y rol en localStorage
+    getToken(): string | null {
+      return localStorage.getItem('token');
+    }
+  
+    getRol(): string | null {
+      return localStorage.getItem('rol');
+    }
+  
+    isLoggedIn(): boolean {
+      return !!this.getToken();
+    }
 }
