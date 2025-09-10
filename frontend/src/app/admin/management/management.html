@@ -1,29 +1,29 @@
 <app-header-admin></app-header-admin>
 <div class="management-container">
- 
   <div class="card">
     <h2>Account Management</h2>
     <p>Manage your user accounts.</p>
     <hr>
 
     <section>
-      <h3>Create account</h3>
-      <input type="text" placeholder="Name">
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button class="btn-primary">Save</button>
+      <h3>Create / Edit account</h3>
+      <input type="text" placeholder="Name" [(ngModel)]="nombre">
+      <input type="text" placeholder="Username" [(ngModel)]="username">
+      <input type="password" placeholder="Password" [(ngModel)]="password">
+      <button class="btn-primary" (click)="saveUser()">Save</button>
     </section>
 
     <hr>
 
     <section>
       <h3>Modify account</h3>
-      <select>
-        <option>Username</option>
+      <select [(ngModel)]="selectedUserId">
+        <option [ngValue]="null">Select user</option>
+        <option *ngFor="let u of users" [ngValue]="u.id">{{ u.username }}</option>
       </select>
       <div class="btn-group">
-        <button class="btn-primary">Reset</button>
-        <button class="btn-secondary">Delete</button>
+        <button class="btn-primary" (click)="editUser()">Edit</button>
+        <button class="btn-secondary" (click)="deleteUser()">Delete</button>
       </div>
     </section>
   </div>
@@ -56,7 +56,7 @@
     <section class="logout">
       <h3>Log out</h3>
       <p>Exit your account</p>
-      <button class="btn-icon" (click)="goToHome()">⎋</button>
+      <button class="btn-icon" (click)="logout()">⎋</button>
     </section>
   </div>
 </div>
