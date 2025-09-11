@@ -1,41 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HeaderAdmin } from '../header-admin/header-admin';
 import { CommonModule } from '@angular/common';
+import { CommentService, CommentModel } from '../../services/comments_service';
 
-interface CommentModel {
-  titulo: string;
-  nombre: string;
-  mensaje: string;
-  archivo: string;
-  correo: string;
-}
 
 @Component({
   selector: 'app-comments',
+  standalone: true,
   imports: [HeaderAdmin],
   templateUrl: './comments.html',
   styleUrl: './comments.css'
 })
 
 
-export class Comments {
-
-  comments = [
-    { titulo: 'Sugerencia de diseño', nombre: 'Juan Pérez', mensaje: 'Me gustaría ver más colores.', archivo: 'mockup.pdf', correo: 'hola@gmail.con' },
-    { titulo: 'Reporte de bug', nombre: 'Ana Gómez', mensaje: 'El botón no funciona en móviles.', archivo: '', correo: 'xd@gmail.com' },
-  ];
-
+export class Comments implements OnInit {
+// Lista de comentarios que se mostrarán en el panel izquierdo
+  comments: CommentModel[] = [];
+// Comentario actualmente seleccionado para mostrar en el panel derecho
   selectedComment: CommentModel | null = null;
 
-  constructor() {}
+  
+  // Inyectamos el servicio de comentarios que se comunica con el backend
+  constructor(private commentService: CommentService) {}
 
-  ngOnInit(): void {}
-
-  selectComment(item: CommentModel) {
-    console.log('Seleccionaste:', item);
-    // aquí disparas el evento para mostrar el detalle en el panel derecho
-    this.selectedComment = item;
+  //Ejucuta al iniciar el componente
+  ngOnInit(): void {
+    this.loadComments(); //cargamos los comentarios al iniciar
   }
 
+
+  // Cargar todos los comentarios desde el backend
+  loadComments() {
+    this.commentService.getAllComments().subscribe({
+      next: (data) => {
+         // Cuando el backend responde correctamente, llenamos el array
+        this.comments = data;
+      },
+      error: (err) => {
+        console.error('Error cargando comentarios', err);
+      }
+    });
+  }
+  // Método que se ejecuta al hacer clic en un comentario
+  selectComment(item: CommentModel) {
+    // aqui se dispara la acción de mostrar el detalle en el panel derecho
+    console.log('Comentario seleccionado:', item);
+    this.selectedComment = item;
+  }
 }
 
