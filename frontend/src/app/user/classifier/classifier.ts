@@ -27,7 +27,13 @@ export class Classifier {
       if (predictionData) {
         const parsed = JSON.parse(predictionData);
 
-        this.predictedClass = parsed.predicted_class;
+        if (parsed.predicted_class == 'VIR_PNEUMONIA') {
+          this.predictedClass = 'Viral';
+        } else if (parsed.predicted_class == 'BAC_PNEUMONIA') {
+          this.predictedClass = 'Bacterial';
+        } else if (parsed.predicted_class == 'NORMAL') {
+          this.predictedClass = 'Normal';
+        }
 
         const probs = parsed.probabilities;
 
