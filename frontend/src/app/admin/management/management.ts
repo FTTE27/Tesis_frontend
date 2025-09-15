@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderAdmin } from "../header-admin/header-admin";
 import { UserService, User } from '../../services/user_services';
-import { LoginService } from '../../services/login_Services';
+import { LoginService } from '../../services/login_services';
 
 @Component({
   selector: 'app-management',
