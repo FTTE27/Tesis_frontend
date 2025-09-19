@@ -27,13 +27,19 @@ export class Classifier {
       if (predictionData) {
         const parsed = JSON.parse(predictionData);
 
-        this.predictedClass = parsed.predicted_class;
+        if (parsed.predicted_class == 'VIR_PNEUMONIA') {
+          this.predictedClass = 'Viral';
+        } else if (parsed.predicted_class == 'BAC_PNEUMONIA') {
+          this.predictedClass = 'Bacterial';
+        } else if (parsed.predicted_class == 'NORMAL') {
+          this.predictedClass = 'Normal';
+        }
 
         const probs = parsed.probabilities;
 
         this.probabilities = [
           { value: Math.round(probs['VIR_PNEUMONIA'] * 100), text: `Probability of Viral Pneumonia: ${Math.round(probs['VIR_PNEUMONIA'] * 100)}%` },
-          { value: Math.round(probs['BAC_NEUMONIA'] * 100), text: `Probability of Bacterial Pneumonia: ${Math.round(probs['BAC_PNEUMONIA'] * 100)}%` },
+          { value: Math.round(probs['BAC_PNEUMONIA'] * 100), text: `Probability of Bacterial Pneumonia: ${Math.round(probs['BAC_PNEUMONIA'] * 100)}%` },
           { value: Math.round(probs['NORMAL'] * 100), text: `Probability of being Normal: ${Math.round(probs['NORMAL'] * 100)}%` }
         ];
 

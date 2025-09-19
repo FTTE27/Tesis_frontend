@@ -52,7 +52,7 @@ export class Upload {
   const formData = new FormData();
   formData.append('file', file); 
 
-  this.http.post('http://localhost:8000/models/predict_with_heatmap', formData, {
+  this.http.post('http://192.168.1.4:8000/models/predict_with_heatmap', formData, {
     reportProgress: true,
     observe: 'events'
   }).subscribe({
