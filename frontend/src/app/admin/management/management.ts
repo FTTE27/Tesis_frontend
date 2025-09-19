@@ -14,19 +14,21 @@ import { LoginService } from '../../services/login_services';
   styleUrls: ['./management.css']
 })
 export class Management implements OnInit {
+  // Variables para el formulario
   nombre: string = '';
   username: string = '';
   password: string = '';
   users: User[] = [];
   selectedUserId: number | null = null;
 
+  //Inyectamos los servicios necesarios:
   constructor(
     private router: Router, 
     private userService: UserService,  
     private authService: LoginService
   ) {}
     
-
+  //Ejecuta al iniciar el componente
   ngOnInit(): void {
     this.loadUsers();
   }
@@ -53,7 +55,7 @@ export class Management implements OnInit {
         rol: 'user',
         disabled: false
       };
-
+      // le pasamos el usuario actualizado al servicio para que lo actualice en el backend
       this.userService.updateUser(this.selectedUserId, updatedUser).subscribe({
         next: () => {
           alert('Usuario actualizado con éxito');
@@ -65,6 +67,7 @@ export class Management implements OnInit {
 
     } else {
       // Create
+      // creamos un nuevo usuario con los datos del formulario
       const newUser: User = {
         nombre: this.nombre,
         username: this.username,
@@ -72,7 +75,7 @@ export class Management implements OnInit {
         rol: 'user',
         disabled: false
       };
-
+      // le pasamos el nuevo usuario al servicio para que lo cree en el backend
       this.userService.createUser(newUser).subscribe({
         next: () => {
           alert('Usuario creado con éxito');
@@ -86,6 +89,7 @@ export class Management implements OnInit {
 
   // Editar → cargar datos al formulario
   editUser() {
+    // busca el usuario seleccionado y carga sus datos 
     if (!this.selectedUserId) return;
     const user = this.users.find(u => u.id === this.selectedUserId);
     if (user) {

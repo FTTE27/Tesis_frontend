@@ -1,0 +1,45 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+// Modelo de Registro (lo afinamos más abajo)
+export interface Registro {
+    id: number;
+    fecha: string;                 // date en backend → string en frontend
+    hora: string;                  // time en backend → string en frontend
+    estado: string;                // DN.keras | CNN.keras | IN.keras
+    probabilidad_viral: number;
+    probabilidad_bacteriana: number;
+    probabilidad_sano: number;
+    username: string;
+}
+  
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RecordsService {
+  private apiUrl = 'http://localhost:8000/registros'; // ajusta a tu URL real
+
+  constructor(private http: HttpClient) {}
+
+  getAllRecords(): Observable<Registro[]> {
+    return this.http.get<Registro[]>(this.apiUrl);
+  }
+
+  getRecordById(id: number): Observable<Registro> {
+    return this.http.get<Registro>(`${this.apiUrl}/${id}`);
+  }
+
+  createRecord(record: Registro): Observable<Registro> {
+    return this.http.post<Registro>(this.apiUrl, record);
+  }
+
+  updateRecord(id: number, record: Registro): Observable<Registro> {
+    return this.http.put<Registro>(`${this.apiUrl}/${id}`, record);
+  }
+
+  deleteRecord(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+}
