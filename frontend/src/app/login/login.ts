@@ -41,6 +41,6 @@ export class Login {
   }
 
   goToReturn() {
-    this.router.navigate(['/']); // boton para salir de la aplicacion - aun no se sale
+    window.close();
   } 
 }

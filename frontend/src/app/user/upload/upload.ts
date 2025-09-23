@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { Router } from '@angular/router';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { ClassificationService } from '../../services/classification_service';
 
 @Component({
   selector: 'app-upload',
@@ -11,15 +12,10 @@ import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
   styleUrl: './upload.css'
 })
 export class Upload {
-
   selectedFile: File | null = null;
   uploadProgress: number = 0;
-  predictionResult: any = null;
-  heatmapImage: string | null = null;
 
-  constructor(private router: Router, private http: HttpClient) {}
-
-  ngOnInit(): void {}
+  constructor(private router: Router, private classificationService: ClassificationService) {}
 
   onFileUpload(): void {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
@@ -44,39 +40,30 @@ export class Upload {
       this.selectedFile = file;
       console.log('Archivo seleccionado:', file.name);
 
-      this.uploadXRay(file);
+      this.uploadFile(file);
     }
   }
 
-  private uploadXRay(file: File): void {
-  const formData = new FormData();
-  formData.append('file', file); 
+  private uploadFile(file: File): void {
+    this.classificationService.uploadXRay(file).subscribe({
+      next: (event: HttpEvent<any>) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          this.uploadProgress = Math.round((event.loaded / event.total) * 100);
+          console.log(`Progreso: ${this.uploadProgress}%`);
+        }
 
-  this.http.post('http://192.168.1.4:8000/models/predict_with_heatmap', formData, {
-    reportProgress: true,
-    observe: 'events'
-  }).subscribe({
-    next: (event: HttpEvent<any>) => {
-      if (event.type === HttpEventType.UploadProgress && event.total) {
-        this.uploadProgress = Math.round((event.loaded / event.total) * 100);
-        console.log(`Progreso: ${this.uploadProgress}%`);
+        if (event.type === HttpEventType.Response) {
+          console.log('Respuesta completa:', event.body);
+          this.classificationService.savePrediction(event.body);
+          this.router.navigate(['/classifier']);
+        }
+      },
+      error: (err) => {
+        console.error('Error al enviar la radiografía:', err);
+        alert('Hubo un error al subir el archivo');
       }
-
-      if (event.type === HttpEventType.Response) {
-        console.log('Respuesta completa:', event.body);
-
-        sessionStorage.setItem('predictionResult', JSON.stringify(event.body));
-
-        this.router.navigate(['/classifier']);
-      }
-    },
-    error: (err) => {
-      console.error('Error al enviar la radiografía:', err);
-      alert('Hubo un error al subir el archivo');
-    }
-  });
-}
-
+    });
+  }
 
   goToClassifier() {
     this.router.navigate(['/classifier']);

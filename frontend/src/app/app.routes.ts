@@ -16,9 +16,8 @@ import { Records } from './admin/records/records';
 import { Comments } from './admin/comments/comments';
 
 export const routes: Routes = [
-    { path: '', component: Home },
+    { path: '', component: Login },
     { path: 'classifier', component: Classifier },
-    { path: 'login', component: Login },
     { path: 'upload', component: Upload },
     { path: 'support', component: Support },
     { path: 'management', component: Management },
