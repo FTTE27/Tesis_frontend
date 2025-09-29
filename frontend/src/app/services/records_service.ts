@@ -19,7 +19,7 @@ export interface Registro {
   providedIn: 'root'
 })
 export class RecordsService {
-  private apiUrl = 'http://localhost:8000/registros'; // ajusta a tu URL real
+  private apiUrl = 'http://192.168.1.5:8000/registros'; // ajusta a tu URL real
 
   constructor(private http: HttpClient) {}
 

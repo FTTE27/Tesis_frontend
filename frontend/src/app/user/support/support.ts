@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../services/login_services';
+import { Router } from '@angular/router';
+import { CommentService, CommentModel } from '../../services/comments_service';
 
 @Component({
   selector: 'app-support',
@@ -16,7 +18,12 @@ export class Support implements OnInit {
   contactForm!: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: LoginService,
+    private router: Router,
+    private commentService: CommentService   
+  ) {}
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
@@ -32,31 +39,40 @@ export class Support implements OnInit {
   }
 
   onSubmit() {
-  if (this.contactForm.invalid) return;
+    if (this.contactForm.invalid) return;
 
-  const formData = {
-    nombre: this.contactForm.get('name')?.value,
-    titulo: this.contactForm.get('title')?.value,
-    correo: this.contactForm.get('email')?.value,
-    mensaje: this.contactForm.get('message')?.value
-  };
-/*
-    if (this.selectedFile) {
-      formData.append('file', this.selectedFile);
-    }
-*/
-  this.http.post('http://192.168.1.4:8000/comentarios', formData).subscribe({
-    next: (res) => {
-      console.log('Formulario enviado:', res);
-      alert('Formulario enviado correctamente');
-      this.contactForm.reset();
-      this.selectedFile = null;
-    },
-    error: (err) => {
-      console.error('Error al enviar:', err);
-      alert('Hubo un problema al enviar el formulario');
-    }
-  });
-}
+    const comment: CommentModel = {
+      nombre: this.contactForm.get('name')?.value,
+      titulo: this.contactForm.get('title')?.value,
+      correo: this.contactForm.get('email')?.value,
+      mensaje: this.contactForm.get('message')?.value
+    };
 
+    this.commentService.createComment(comment).subscribe({
+      next: (res) => {
+        console.log('Comentario enviado:', res);
+        alert('Comentario enviado correctamente');
+        this.contactForm.reset();
+        this.selectedFile = null;
+      },
+      error: (err) => {
+        console.error('Error al enviar comentario:', err);
+        alert('Hubo un problema al enviar el comentario');
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (err: any) => {
+        console.error('Error en logout:', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('rol');
+        this.router.navigate(['/']);
+      }
+    });
+  }
 }
