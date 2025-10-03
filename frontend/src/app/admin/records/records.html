@@ -35,53 +35,42 @@
           </div>
           <h3 class="text-lg font-bold text-black">Classification Overview</h3>
         </div>
-
         <!-- Classification Table -->
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-gray-500">
-                <th class="text-left py-2 text-black font-semibold">Classification Date</th>
-                <th *ngFor="let record of records" class="text-center py-2 text-black font-semibold">
-                  {{ record.fecha | date:'dd MMM' }}
-                </th>
+                <th class="py-2 text-black font-semibold">Date</th>
+                <th class="py-2 text-black font-semibold">Time</th>
+                <th class="py-2 text-black font-semibold">Diagnostic</th>
+                <th class="py-2 text-black font-semibold">Name</th>
+                <th class="py-2 text-black font-semibold">Status</th>
+                <th class="py-2 text-black font-semibold">Download</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Time</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
-                  {{ record.fecha | date:'HH:mm' }}
+              <tr *ngFor="let record of records" class="border-b border-gray-500">
+                <td class="text-center py-1 text-black">
+                  {{ record.fecha | date:'dd MMM' }}
                 </td>
-              </tr>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Normal</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
-                  {{ record.probabilidad_sano | percent:'1.0-0' }}
+                <td class="text-center py-1 text-black">
+                  {{ record.hora.substring(0,5) }}
                 </td>
-              </tr>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Viral</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
-                  {{ record.probabilidad_viral| percent:'1.0-0' }}
+                <td class="text-center py-1 text-black">
+                  {{ getDiagnosis(record) }}
                 </td>
-              </tr>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Bacterial</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
-                  {{ record.probabilidad_bacteriana | percent:'1.0-0' }}
-                </td>
-              </tr>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Name</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
+                <td class="text-center py-1 text-black">
                   {{ record.username }}
                 </td>
-              </tr>
-              <tr class="border-b border-gray-500">
-                <td class="py-1 text-black font-semibold">Status</td>
-                <td *ngFor="let record of records" class="text-center py-1 text-black">
+                <td class="text-center py-1 text-black">
                   {{ record.estado }}
+                </td>
+                <td class="text-center py-1">
+                  <button
+                  class="px-3 py-1 bg-gray-500 text-white rounded hover:bg-blue-700"
+                  (click)="descargarRegistroPaciente(record)">
+                  Descargar PDF
+                </button>
                 </td>
               </tr>
             </tbody>
@@ -101,18 +90,6 @@
             </div>
             <h3 class="text-lg font-bold text-black">Filters</h3>
           </div>
-
-          <!-- Filter Options -->
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="text-black font-semibold">Record Date</span>
-              <span class="text-black">Time</span>
-            </div>
-            <div *ngIf="records.length > 0" class="flex justify-between items-center">
-              <span class="text-black">{{ records[0].fecha | date:'dd MMM yyyy' }}</span>
-              <span class="text-black">{{ records[0].fecha | date:'HH:mm' }}</span>
-            </div>
-
             <!-- Time Filter Buttons -->
           <div class="flex space-x-2 mt-4">
             <button

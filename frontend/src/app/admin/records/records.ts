@@ -6,6 +6,7 @@ import { ExportService } from '../../services/export_service';
 
 @Component({
   selector: 'app-records',
+  standalone: true,
   imports: [HeaderAdmin, CommonModule],
   templateUrl: './records.html',
   styleUrl: './records.css'
@@ -14,7 +15,7 @@ export class Records implements OnInit {
   registrosOriginal: Registro[] = [];   // todos los registros del backend
   registrosFiltrados: Registro[] = [];  // los que se muestran tras filtrar
 
-    // Estos son los que el HTML espera
+    // Estos son los registros que el HTML espera
     get records(): Registro[] {
       return this.registrosFiltrados;
     }
@@ -23,8 +24,6 @@ export class Records implements OnInit {
   estados: string[] = ['DN.keras', 'CNN.keras', 'IN.keras'];
 
   activeFilter: string = 'daily'; // Por defecto el primero
-
-
 
   // Datos para el gráfico de barras
   chartLabels: string[] = [];
@@ -51,7 +50,8 @@ export class Records implements OnInit {
   ngOnInit(): void {
     this.recordsService.getAllRecords().subscribe({
       next: (data) => {
-        this.registrosOriginal = data;
+
+        this.registrosOriginal = data.map(r => ({...r,  diagnostico: this.getDiagnosis(r) }));
         this.registrosFiltrados = [...data]; // arranque sin filtros
       },
       error: (err) => console.error('Error cargando registros', err)
@@ -106,9 +106,22 @@ export class Records implements OnInit {
 
     this.registrosFiltrados = [...this.registrosOriginal];
   }
+  // Exporta todos los registros a PDF
   exportRecords() {
     this.exportService.exportRecordsPDF(this.registrosOriginal);
   }
+  // Exporta el registro seleccionado a PDF
+  descargarRegistroPaciente(record: Registro) {
+    console.log("Clic en registro:", record);
+    this.recordsService.getRegistroEsp(record.id).subscribe({
+      next: (registroCompleto) => {
+        console.log("Registro completo recibido:", registroCompleto);
+        this.exportService.exportSingleRecordPDF(registroCompleto);
+      },
+      error: (err) => console.error("Error obteniendo registro completo", err)
+    });
+  }
+
   // Elimina todos los registros
   deleteAll() {
     this.registrosOriginal = [];
@@ -124,7 +137,24 @@ export class Records implements OnInit {
     const [year, month, day] = dateString.split('-').map(Number);
     return new Date(year, month - 1, day); // Local sin problemas de UTC
   }
-  //Filtra los registros por día, semana, mes o año y actualiza el gráfico
+
+  // función que determina el diagnóstico más probable
+  getDiagnosis(record: Registro): string {
+    const probs = {
+      Normal: record.probabilidad_sano,
+      Viral: record.probabilidad_viral,
+      Bacterial: record.probabilidad_bacteriana
+    };
+
+    type DiagnosisKey = keyof typeof probs; // "Normal" | "Viral" | "Bacterial"
+
+    const maxKey = (Object.keys(probs) as DiagnosisKey[]).reduce((a, b) =>
+      probs[a] > probs[b] ? a : b
+    );
+
+    return maxKey.toUpperCase(); // Ej: "NORMAL", "VIRAL", "BACTERIAL"
+  }
+
   // Filtra los registros por día, semana, mes o año y actualiza el gráfico
 filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
   const now = new Date();
@@ -218,4 +248,6 @@ filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
     this.chartCounts = counts;
     this.chartMax = Math.max(...counts, 1);
   }
+
+
 }
