@@ -152,18 +152,18 @@ export class Records implements OnInit {
       probs[a] > probs[b] ? a : b
     );
 
-    return maxKey.toUpperCase(); // Ej: "NORMAL", "VIRAL", "BACTERIAL"
+    return maxKey.toUpperCase(); // poner en mayúsculas
   }
 
   // Filtra los registros por día, semana, mes o año y actualiza el gráfico
-filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
+filterBy(period: 'daily' | 'weekly' ): void {
   const now = new Date();
   let labels: string[] = [];
   let counts: number[] = [];
   this.activeFilter = period;
 
   if (period === 'daily') {
-    // últimos 7 días (índice 6 = hoy, 0 = hace 6 días)
+    // últimos 7 días
     counts = new Array(7).fill(0);
     labels = new Array(7);
 
@@ -171,7 +171,7 @@ filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
       const fecha = this.parseLocalDate(r.fecha);
       const diffDays = Math.floor((+now - +fecha) / (1000 * 60 * 60 * 24));
       if (diffDays >= 0 && diffDays < 7) {
-        counts[6 - diffDays]++;   // <-- usar 6 - diffDays
+        counts[6 - diffDays]++;
       }
     });
 
@@ -183,7 +183,7 @@ filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
   }
 
   if (period === 'weekly') {
-    // últimos 7 semanas (índice 6 = semana actual)
+    // últimos 7 semanas
     counts = new Array(7).fill(0);
     labels = new Array(7);
 
@@ -191,50 +191,12 @@ filterBy(period: 'daily' | 'weekly' | 'monthly' | 'yearly'): void {
       const fecha = this.parseLocalDate(r.fecha);
       const diffWeeks = Math.floor((+now - +fecha) / (1000 * 60 * 60 * 24 * 7));
       if (diffWeeks >= 0 && diffWeeks < 7) {
-        counts[6 - diffWeeks]++;  // <-- usar 6 - diffWeeks
+        counts[6 - diffWeeks]++;
       }
     });
 
     for (let i = 0; i < 7; i++) {
-      labels[i] = `Semana ${i + 1}`; // o personaliza según prefieras
-    }
-  }
-
-  if (period === 'monthly') {
-    // últimos 7 meses (índice 6 = mes actual)
-    const monthNames = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    counts = new Array(7).fill(0);
-    labels = new Array(7);
-
-    this.registrosOriginal.forEach(r => {
-      const fecha = this.parseLocalDate(r.fecha);
-      const diffMonths = (now.getFullYear() - fecha.getFullYear()) * 12 + (now.getMonth() - fecha.getMonth());
-      if (diffMonths >= 0 && diffMonths < 7) {
-        counts[6 - diffMonths]++;  // <-- usar 6 - diffMonths
-      }
-    });
-
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(now.getFullYear(), now.getMonth() - (6 - i), 1);
-      labels[i] = monthNames[date.getMonth()];
-    }
-  }
-
-  if (period === 'yearly') {
-    // últimos 7 años (índice 6 = año actual)
-    counts = new Array(7).fill(0);
-    labels = new Array(7);
-
-    this.registrosOriginal.forEach(r => {
-      const fecha = this.parseLocalDate(r.fecha);
-      const diffYears = now.getFullYear() - fecha.getFullYear();
-      if (diffYears >= 0 && diffYears < 7) {
-        counts[6 - diffYears]++;  // <-- usar 6 - diffYears
-      }
-    });
-
-    for (let i = 0; i < 7; i++) {
-      labels[i] = (now.getFullYear() - (6 - i)).toString();
+      labels[i] = `Semana ${i + 1}`;
     }
   }
 
