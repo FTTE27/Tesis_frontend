@@ -12,14 +12,16 @@ export interface Registro {
     probabilidad_bacteriana: number;
     probabilidad_sano: number;
     username: string;
+    radiografia: string;
+    nombre_archivo: string;
 }
-  
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecordsService {
-  private apiUrl = 'http://192.168.1.5:8000/registros'; // ajusta a tu URL real
+  private apiUrl = 'http://localhost:8000/registros';
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +31,10 @@ export class RecordsService {
 
   getRecordById(id: number): Observable<Registro> {
     return this.http.get<Registro>(`${this.apiUrl}/${id}`);
+  }
+
+  getRegistroEsp(id: number): Observable<Registro> {
+    return this.http.get<Registro>(`${this.apiUrl}/esp/${id}`);
   }
 
   createRecord(record: Registro): Observable<Registro> {
