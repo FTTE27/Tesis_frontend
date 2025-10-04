@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -18,15 +18,17 @@ export class ClassificationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  uploadXRay(file: File): Observable<HttpEvent<any>> {
-    const formData = new FormData();
-    formData.append('file', file);
+  uploadXRay(file: File, headers: HttpHeaders): Observable<HttpEvent<any>> {
+  const formData = new FormData();
+  formData.append('file', file);
 
-    return this.http.post(this.apiUrl, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
-  }
+  return this.http.post(this.apiUrl, formData, {
+    reportProgress: true,
+    observe: 'events',
+    headers
+  });
+}
+
 
   savePrediction(result: PredictionResult): void {
     sessionStorage.setItem(this.storageKey, JSON.stringify(result));

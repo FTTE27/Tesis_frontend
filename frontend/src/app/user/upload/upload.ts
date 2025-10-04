@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { Router } from '@angular/router';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { ClassificationService } from '../../services/classification_service';
 
 @Component({
@@ -45,7 +45,19 @@ export class Upload {
   }
 
   private uploadFile(file: File): void {
-    this.classificationService.uploadXRay(file).subscribe({
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+
+    if (!token) {
+      alert('No hay sesión activa. Inicia sesión primero.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.classificationService.uploadXRay(file, headers).subscribe({
       next: (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
           this.uploadProgress = Math.round((event.loaded / event.total) * 100);

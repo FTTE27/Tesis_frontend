@@ -23,7 +23,7 @@ export class ExportClassifierService {
     }
 
     // Construir tabla de probabilidades
-    const tableHeader = ["Class", "Probability"];
+    const tableHeader = ["Clase", "Probabilidad"];
     const tableBody = [
       tableHeader,
       ...data.probabilities.map((p) => [
@@ -35,13 +35,13 @@ export class ExportClassifierService {
     // Definición del documento
     const documentDefinition: any = {
       content: [
-        { text: "Classification Results", style: "header" },
+        { text: "Resultados de clasificación", style: "header" },
         {
-          text: `Date: ${new Date().toLocaleString()}`,
+          text: `Fecha: ${new Date().toLocaleString()}`,
           margin: [0, 0, 0, 20],
         },
         {
-          text: `Class predicted: ${data.predictedClass}`,
+          text: `Predicción: ${data.predictedClass}`,
           style: "subheader",
           margin: [0, 0, 0, 15],
         },
@@ -55,7 +55,7 @@ export class ExportClassifierService {
         },
         ...(data.heatmapImage
           ? [
-              { text: "Heatmap", style: "subheader", margin: [0, 20, 0, 10] },
+              { text: "Mapa de calor", style: "subheader", margin: [0, 20, 0, 10] },
               {
                 image: data.heatmapImage,
                 width: 400,
