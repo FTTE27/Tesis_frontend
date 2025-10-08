@@ -20,4 +20,7 @@ export class HeaderAdmin {
   goManagement() {
     this.router.navigate(['/management']);
   }
+  goComments() {
+    this.router.navigate(['/comments']);
+  }
 }
