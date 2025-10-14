@@ -98,26 +98,26 @@ exportSingleRecordPDF(record: Registro) {
   // Definición del documento
   const documentDefinition: any = {
     content: [
-      { text: "Reporte Individual del Paciente", style: "header" },
+      { text: "Individual Report", style: "header" },
       {
-        text: `Fecha de exportación: ${new Date().toLocaleString()}`,
+        text: `Exportation Date: ${new Date().toLocaleString()}`,
         margin: [0, 0, 0, 20],
       },
 
-      { text: `Paciente: ${record.username}`, style: "subheader" },
-      { text: `ID Registro: ${record.id}` },
-      { text: `Nombre Archivo: ${record.nombre_archivo}` },
-      { text: `Fecha: ${record.fecha}` },
-      { text: `Hora: ${record.hora}` },
+      { text: `User: ${record.username}`, style: "subheader" },
+      { text: `Register ID: ${record.id}` },
+      { text: `Archive: ${record.nombre_archivo}` },
+      { text: `Date: ${record.fecha}` },
+      { text: `Time: ${record.hora}` },
 
       {
-        text: `Estado Predicho: ${record.estado}`,
+        text: `Model: ${record.estado}`,
         style: "subheader",
         margin: [0, 15, 0, 15],
       },
 
       {
-        text: "Probabilidades Detalladas",
+        text: "Probabilities",
         style: "subheader",
         margin: [0, 10, 0, 10],
       },
@@ -130,8 +130,7 @@ exportSingleRecordPDF(record: Registro) {
         layout: "lightHorizontalLines",
       },
 
-      // Radiografía / Heatmap
-      { text: "Mapa de Calor (Radiografía)", style: "subheader", margin: [0, 20, 0, 10] },
+      { text: "Heatmap", style: "subheader", margin: [0, 20, 0, 10] },
       radiografiaBase64
         ? {
             image: radiografiaBase64,
@@ -140,7 +139,7 @@ exportSingleRecordPDF(record: Registro) {
             margin: [0, 0, 0, 20],
           }
         : {
-            text: "No se encontró mapa de calor para este registro.",
+            text: "There is not a Heatmap for this register.",
             italics: true,
             color: "red",
             margin: [0, 0, 0, 20],
@@ -153,9 +152,8 @@ exportSingleRecordPDF(record: Registro) {
     defaultStyle: { fontSize: 11 },
   };
 
-  // Descargar PDF con nombre personalizado
   pdfMake.createPdf(documentDefinition).download(
-    `reporte_${record.username}_${record.id}.pdf`
+    `report_${record.username}_${record.id}.pdf`
   );
 }
 

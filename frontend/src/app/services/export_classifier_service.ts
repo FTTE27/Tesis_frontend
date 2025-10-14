@@ -18,30 +18,28 @@ export class ExportClassifierService {
 
   exportClassifierPDF(data: ClassifierExportData) {
     if (!data) {
-      console.log("No hay datos para exportar");
+      console.log("No data for exportation");
       return;
     }
 
-    // Construir tabla de probabilidades
-    const tableHeader = ["Clase", "Probabilidad"];
+    const tableHeader = ["Class", "Probability"];
     const tableBody = [
       tableHeader,
       ...data.probabilities.map((p) => [
-        p.text.split(":")[0], // Nombre de la clase (ej: "Probability of Viral Pneumonia")
-        `${p.value}%`,       // Probabilidad en %
+        p.text.split(":")[0], 
+        `${p.value}%`,      
       ]),
     ];
 
-    // Definición del documento
     const documentDefinition: any = {
       content: [
-        { text: "Resultados de clasificación", style: "header" },
+        { text: "Classification Results", style: "header" },
         {
-          text: `Fecha: ${new Date().toLocaleString()}`,
+          text: `Date: ${new Date().toLocaleString()}`,
           margin: [0, 0, 0, 20],
         },
         {
-          text: `Predicción: ${data.predictedClass}`,
+          text: `Prediction: ${data.predictedClass}`,
           style: "subheader",
           margin: [0, 0, 0, 15],
         },
@@ -82,7 +80,6 @@ export class ExportClassifierService {
       },
     };
 
-    // Descargar PDF
     pdfMake.createPdf(documentDefinition).download("classification.pdf");
   }
 }
