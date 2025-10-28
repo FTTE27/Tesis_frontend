@@ -20,13 +20,13 @@ export class ExportService {
 
     const tableHeader = [
       "ID",
-      "Fecha",
-      "Hora",
-      "Estado",
+      "Date",
+      "Time",
+      "Model",
       "Prob. Viral",
-      "Prob. Bacteriana",
-      "Prob. Sano",
-      "Usuario",
+      "Prob. Bacterial",
+      "Prob. Normal",
+      "Username",
     ];
 
     const tableBody = [
@@ -46,9 +46,9 @@ export class ExportService {
     const documentDefinition: any = {
       pageOrientation: 'landscape',
       content: [
-        { text: "Historial de Registros", style: "header" },
+        { text: "Records", style: "header" },
         {
-          text: `Fecha de exportación: ${new Date().toLocaleString()}`,
+          text: `Exportation Date: ${new Date().toLocaleString()}`,
           margin: [0, 0, 0, 20],
         },
         {
@@ -74,8 +74,7 @@ export class ExportService {
     pdfMake.createPdf(documentDefinition).download("registros.pdf");
   }
 
-  // Exportar un solo registro a PDF
-  // Exportar un solo registro a PDF (mejorado con datos de /esp/{id})
+
 exportSingleRecordPDF(record: Registro) {
   if (!record) {
     console.log("No hay registro para exportar");
@@ -89,10 +88,10 @@ exportSingleRecordPDF(record: Registro) {
 
   // Tabla de probabilidades
   const tableBody = [
-    ["Clase", "Probabilidad"],
-    ["Sano", `${record.probabilidad_sano.toFixed(2)} %`],
-    ["Viral", `${record.probabilidad_viral.toFixed(2)} %`],
-    ["Bacteriana", `${record.probabilidad_bacteriana.toFixed(2)} %`],
+    ["Class", "Probability"],
+    ["Normal", `${record.probabilidad_sano.toFixed(2)} `],
+    ["Viral", `${record.probabilidad_viral.toFixed(2)} `],
+    ["Bacterial", `${record.probabilidad_bacteriana.toFixed(2)} `],
   ];
 
   // Definición del documento

@@ -16,7 +16,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://192.168.1.5:8000/usuarios'; // ajusta al endpoint real
+  private apiUrl = 'http://192.168.1.4:8000/usuarios'; // ajusta al endpoint real
 
   constructor(private http: HttpClient) {}
 

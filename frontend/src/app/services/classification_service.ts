@@ -13,7 +13,7 @@ export interface PredictionResult {
   providedIn: 'root'
 })
 export class ClassificationService {
-  private apiUrl = 'http://192.168.1.5:8000/models/predict_with_heatmap';
+  private apiUrl = 'http://192.168.1.4:8000/models/predict_with_heatmap';
   private storageKey = 'predictionResult';
 
   constructor(private http: HttpClient, private router: Router) {}

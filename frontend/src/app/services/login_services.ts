@@ -14,7 +14,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'http://192.168.1.5:8000/auth'; // Base de la API
+  private baseUrl = 'http://192.168.1.4:8000/auth'; // Base de la API
 
   constructor(private http: HttpClient) {}
 

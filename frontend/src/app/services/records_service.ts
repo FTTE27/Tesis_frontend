@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 // Modelo de Registro (lo afinamos más abajo)
 export interface Registro {
     id: number;
-    fecha: string;                 // date en backend → string en frontend
-    hora: string;                  // time en backend → string en frontend
+    fecha: string;                 
+    hora: string;                  
     estado: string;                // DN.keras | CNN.keras | IN.keras
     probabilidad_viral: number;
     probabilidad_bacteriana: number;
@@ -21,7 +21,7 @@ export interface Registro {
   providedIn: 'root'
 })
 export class RecordsService {
-  private apiUrl = 'http://192.168.1.5:8000/registros';
+  private apiUrl = 'http://192.168.1.4:8000/registros';
 
   constructor(private http: HttpClient) {}
 

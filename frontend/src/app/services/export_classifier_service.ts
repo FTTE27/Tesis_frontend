@@ -53,7 +53,7 @@ export class ExportClassifierService {
         },
         ...(data.heatmapImage
           ? [
-              { text: "Mapa de calor", style: "subheader", margin: [0, 20, 0, 10] },
+              { text: "Heatmap", style: "subheader", margin: [0, 20, 0, 10] },
               {
                 image: data.heatmapImage,
                 width: 400,
