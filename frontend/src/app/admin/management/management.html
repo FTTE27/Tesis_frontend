@@ -10,7 +10,9 @@
       <input type="text" placeholder="Name" [(ngModel)]="nombre">
       <input type="text" placeholder="Username" [(ngModel)]="username">
       <input type="password" placeholder="Password" [(ngModel)]="password">
-      <button class="btn-primary" (click)="saveUser()">Save</button>
+      <button class="btn-primary" (click)="saveUser()" style="background-color: #7A1CFF; border-color: #7A1CFF;">
+        Save
+      </button>
     </section>
 
     <hr>
@@ -22,8 +24,12 @@
         <option *ngFor="let u of users" [ngValue]="u.id">{{ u.username }}</option>
       </select>
       <div class="btn-group">
-        <button class="btn-primary" (click)="editUser()">Edit</button>
-        <button class="btn-secondary" (click)="deleteUser()">Delete</button>
+        <button class="btn-primary" (click)="editUser()" style="background-color: #7A1CFF; border-color: #7A1CFF;">
+          Edit
+        </button>
+        <button class="btn-primary" (click)="deleteUser()" style="background-color: #7A1CFF; border-color: #7A1CFF;">
+          Delete
+        </button>
       </div>
     </section>
   </div>
@@ -34,10 +40,20 @@
     <hr>
 
     <section>
-      <select>
-        <option>Actual model</option>
+      <!-- Lista desplegable con los modelos cargados desde el backend -->
+      <select [(ngModel)]="selectedModel" class="border rounded px-2 py-1 w-2/3">
+        <option [ngValue]="null">Select model</option>
+        <option *ngFor="let m of models" [value]="m">{{ m }}</option>
       </select>
-      <button class="btn-primary">Upload</button>
+
+      <!-- Botón Upload conserva el color morado -->
+      <button
+        class="btn-primary ml-2"
+        style="background-color: #7A1CFF; border-color: #7A1CFF;"
+        (click)="changeModel()"
+      >
+        Upload
+      </button>
     </section>
 
     <hr>
@@ -45,7 +61,13 @@
     <section class="logout">
       <h3>Log out</h3>
       <p>Exit your account</p>
-      <button class="btn-icon" (click)="logout()">⎋</button>
+      <button
+        class="btn-icon"
+        (click)="logout()"
+        style="background-color: #7A1CFF; border-color: #7A1CFF; color: white;"
+      >
+        ⎋
+      </button>
     </section>
   </div>
 </div>

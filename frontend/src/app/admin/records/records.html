@@ -8,7 +8,7 @@
     <div class="bg-gray-400 rounded-lg p-4 flex items-center justify-between">
       <!-- Left side - Image and Info -->
       <div class="flex items-center space-x-4">
-        <img src="assets/chest-xray-icon.png" alt="Chest X-ray" class="w-16 h-16 rounded-lg">
+        <img src="assets/logo_blanco_morado.jpg" alt="Chest X-ray" class="w-16 h-16 rounded-lg">
         <div>
           <h2 class="text-xl font-bold text-black">Classification Records</h2>
           <p class="text-sm text-gray-700">Total: {{ records.length }} records</p>
@@ -17,8 +17,23 @@
 
       <!-- Action Buttons -->
       <div class="flex space-x-2">
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm" (click)="exportRecords()">Export</button>
-        <button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm" (click)="deleteAll()">Delete</button>
+        <button
+          class="text-white px-4 py-2 rounded text-sm transition"
+          style="background-color: #7A1CFF;"
+          onmouseover="this.style.backgroundColor='#6518d8'"
+          onmouseout="this.style.backgroundColor='#7A1CFF'"
+          (click)="exportRecords()">
+          Export
+        </button>
+
+        <button
+          class="text-white px-4 py-2 rounded text-sm transition"
+          style="background-color: #7A1CFF;"
+          onmouseover="this.style.backgroundColor='#6518d8'"
+          onmouseout="this.style.backgroundColor='#7A1CFF'"
+          (click)="deleteAll()">
+          Delete
+        </button>
       </div>
     </div>
 
@@ -28,7 +43,9 @@
       <!-- Left Column - Classification Overview -->
       <div class="bg-gray-400 rounded-lg p-3 self-start">
         <div class="flex items-center space-x-2 mb-3">
-          <div class="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
+          <div
+            class="w-6 h-6 rounded flex items-center justify-center"
+            style="background-color: #7A1CFF;">
             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -67,10 +84,13 @@
                 </td>
                 <td class="text-center py-1">
                   <button
-                  class="px-3 py-1 bg-gray-500 text-white rounded hover:bg-blue-700"
-                  (click)="descargarRegistroPaciente(record)">
-                  Download PDF
-                </button>
+                    class="px-3 py-1 text-white rounded transition"
+                    style="background-color: #7A1CFF;"
+                    onmouseover="this.style.backgroundColor='#6518d8'"
+                    onmouseout="this.style.backgroundColor='#7A1CFF'"
+                    (click)="descargarRegistroPaciente(record)">
+                    Download PDF
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -83,42 +103,46 @@
         <!-- Filters Section -->
         <div class="bg-gray-400 rounded-lg p-4">
           <div class="flex items-center space-x-2 mb-4">
-            <div class="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
+            <div
+              class="w-6 h-6 rounded flex items-center justify-center"
+              style="background-color: #7A1CFF;">
               <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
               </svg>
             </div>
             <h3 class="text-lg font-bold text-black">Filters</h3>
           </div>
-            <!-- Time Filter Buttons -->
+
+          <!-- Time Filter Buttons -->
           <div class="flex space-x-2 mt-4">
             <button
               class="px-3 py-1 rounded text-sm text-white"
-              [ngClass]="activeFilter === 'daily' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-500 hover:bg-gray-600'"
+              [ngClass]="activeFilter === 'daily' ? 'bg-[#7A1CFF] hover:bg-[#6518d8]' : 'bg-gray-500 hover:bg-gray-600'"
               (click)="filterBy('daily')">
               Daily
             </button>
 
             <button
               class="px-3 py-1 rounded text-sm text-white"
-              [ngClass]="activeFilter === 'weekly' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-500 hover:bg-gray-600'"
+              [ngClass]="activeFilter === 'weekly' ? 'bg-[#7A1CFF] hover:bg-[#6518d8]' : 'bg-gray-500 hover:bg-gray-600'"
               (click)="filterBy('weekly')">
               Weekly
             </button>
           </div>
+
           <!-- Area del grafico -->
           <div class="mt-6 bg-gray-300 rounded p-4 h-48 flex flex-col justify-between">
             <div class="grid grid-cols-7 items-end h-full gap-2">
               <div
                 *ngFor="let count of chartCounts"
-                class="bg-purple-600 rounded-t"
+                class="rounded-t"
+                style="background-color: #7A1CFF;"
                 [style.height.%]="(count / chartMax) * 100">
               </div>
             </div>
             <div class="grid grid-cols-7 text-xs text-gray-600 mt-2 text-center">
               <span *ngFor="let label of chartLabels">{{ label }}</span>
             </div>
-
           </div>
         </div>
       </div>

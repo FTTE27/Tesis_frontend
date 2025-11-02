@@ -1,5 +1,13 @@
-<header class="bg-purple-700 text-white p-4 flex justify-between items-center">
-  <div class="font-bold text-lg cursor-pointer" (click)="goHome()">Pneumonia Classificator</div>
+<header class="text-white p-4 flex justify-between items-center"
+        style="background-color: #7A1CFF;">
+  <div class="cursor-pointer" (click)="goHome()">
+    <img
+      src="assets/nombre_blanco_morado.jpg"
+      alt="Logo"
+      class="h-10 w-auto"
+    />
+  </div>
+
   <nav class="space-x-4">
     <span class="hover:underline cursor-pointer" (click)="goUpload()">Home</span>
     <span class="hover:underline cursor-pointer" (click)="goClassify()">Classify</span>

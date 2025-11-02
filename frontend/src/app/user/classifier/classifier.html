@@ -3,15 +3,16 @@
 
   <main class="flex-1 bg-gray-100 p-6 flex flex-col items-center">
     <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
-      
+
       <!-- Clase predicha -->
-      <h2 class="text-2xl font-bold text-purple-700 mb-4">
+      <h2 class="text-2xl font-bold text-[#7A1CFF] mb-4">
         Predicted Class: {{ predictedClass }}
       </h2>
 
       <!-- Probabilidades reales -->
       <div *ngFor="let prob of probabilities" class="flex items-center mb-4">
-        <div class="bg-purple-700 text-white rounded-full w-16 h-16 flex items-center justify-center text-xl font-bold">
+        <div class="text-white rounded-full w-16 h-16 flex items-center justify-center text-xl font-bold"
+        style="background-color: #7A1CFF;">
           {{ prob.value }}%
         </div>
         <span class="ml-4 text-gray-700 font-medium">{{ prob.text }}</span>
@@ -19,10 +20,10 @@
 
       <!-- Mostrar heatmap directamente -->
       <div *ngIf="heatmapImage" class="mt-6 text-center w-full">
-        
+
         <!-- Imagen a tamaño real -->
         <div *ngIf="heatmapImage" class="mt-6 text-center">
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Heatmap</h3>
+          <h3 class="text-xl font-semibold text-[#7A1CFF] mb-2">Heatmap</h3>
           <img
             [src]="heatmapImage"
             alt="Heatmap"
@@ -45,18 +46,18 @@
       </div>
 
       <!-- Botones -->
-      <a 
+      <a
         *ngIf="heatmapImage"
-        [href]="heatmapImage" 
+        [href]="heatmapImage"
         download="heatmap.png"
-        class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 w-full block text-center mt-4"
-      >
+        class="text-white px-4 py-2 rounded  w-full block text-center mt-4"
+        style="background-color: #7A1CFF;">
         Download Heatmap
       </a>
       <button
         (click)="exportToPDF()"
-        class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 w-full block text-center mt-4"
-      >
+        class="text-white px-4 py-2 rounded w-full block text-center mt-4"
+        style="background-color: #7A1CFF;">
         Export
       </button>
     </div>

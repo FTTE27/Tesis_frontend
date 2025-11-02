@@ -2,11 +2,18 @@
 
 <!-- Barra de búsqueda -->
 <div class="flex items-center m-4 max-w-md">
-  <button class="px-4 py-2 bg-blue-500 text-white rounded-l-full hover:bg-blue-600">
+  <button
+    class="px-4 py-2 text-white rounded-l-full transition"
+    style="background-color: #7A1CFF; border-color: #7A1CFF;"
+    onmouseover="this.style.backgroundColor='#6518d8'"
+    onmouseout="this.style.backgroundColor='#7A1CFF'">
     🔍
   </button>
-  <input type="text" placeholder="Buscar..."  [(ngModel)]="searchTerm"
-         class="flex-1 px-4 py-2 border border-gray-300 rounded-r-full focus:outline-none" />
+  <input
+    type="text"
+    placeholder="Buscar..."
+    [(ngModel)]="searchTerm"
+    class="flex-1 px-4 py-2 border border-gray-300 rounded-r-full focus:outline-none" />
 </div>
 
 <!-- CONTENEDOR FLEX PARA PANEL IZQ + PANEL DER -->
@@ -16,7 +23,7 @@
     <h2 class="font-bold mb-4">Comments</h2>
     <!-- Iteración, recorre los comentarios filtrados -->
     @for (item of filteredComments(); track $index) {
-       <!-- Cada comentario se renderiza como una "tarjeta" -->
+      <!-- Cada comentario se renderiza como una "tarjeta" -->
       <div
         (click)="selectComment(item)"
         class="cursor-pointer bg-white shadow rounded-lg p-3 mb-3 hover:bg-gray-100 transition">
@@ -31,7 +38,7 @@
   </div>
 
   <!-- Panel derecho -->
-  <div class="w-2/3 p-6">
+  <div class="w-2/3 p-6 relative">
     <!-- Solo se muestra si hay un comentario seleccionado -->
     @if (selectedComment) {
       <h2 class="text-xl font-bold mb-2">{{ selectedComment.titulo }}</h2>
@@ -39,9 +46,15 @@
       <p class="text-gray-500 text-sm mb-4">{{ selectedComment.correo }}</p>
       <p class="text-gray-800">{{ selectedComment.mensaje }}</p>
 
-       <button *ngIf="selectedComment?.id !== undefined" (click)="deleteComment(selectedComment.id!)"
-       class="absolute bottom-4 right-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
-      Delete</button>
+      <button
+        *ngIf="selectedComment?.id !== undefined"
+        (click)="deleteComment(selectedComment.id!)"
+        class="absolute bottom-4 right-4 px-4 py-2 text-white rounded transition"
+        style="background-color: #7A1CFF; border-color: #7A1CFF;"
+        onmouseover="this.style.backgroundColor='#6518d8'"
+        onmouseout="this.style.backgroundColor='#7A1CFF'">
+        Delete
+      </button>
     } @else {
       <p class="text-gray-400 italic">Select a comment to view details</p>
     }

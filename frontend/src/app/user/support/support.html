@@ -2,47 +2,49 @@
 
 <div class="min-h-screen bg-gray-50 px-4 py-8">
   <div class="max-w-6xl mx-auto">
-    
+
     <!-- Top Section - 2 Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      
+
       <!-- User Manual Card -->
       <div class="bg-white rounded-lg shadow-md p-6 text-center">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">User Manual</h2>
-        <button 
-          class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200"
+        <button
+          class="text-white font-semibold py-2 px-6 rounded-lg transition duration-200"
+          style="background-color: #7A1CFF;"
         >
           Learn to use the application
         </button>
       </div>
-      
+
       <!-- Log out Card -->
       <div class="bg-white rounded-lg shadow-md p-6 text-center">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Log out</h2>
-        <button 
-          class="w-12 h-12 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center mx-auto transition duration-200" 
+        <button
+          class="w-12 h-12 text-white rounded-full flex items-center justify-center mx-auto transition duration-200"
+          style="background-color: #7A1CFF;"
           (click)="logout()"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
             </path>
           </svg>
         </button>
       </div>
     </div>
-    
+
     <!-- Contact Form -->
     <div class="bg-white rounded-lg shadow-md p-8">
       <h2 class="text-xl font-semibold text-gray-800 mb-6">Contact Form</h2>
-      
+
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        
+
         <!-- Name Input -->
         <div>
-          <input 
-            formControlName="name" 
-            type="text" 
+          <input
+            formControlName="name"
+            type="text"
             placeholder="Your Name"
             [ngClass]="{'border-red-500': contactForm.get('name')?.invalid && contactForm.get('name')?.touched}"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none placeholder-gray-400"
@@ -51,12 +53,12 @@
             Name is required.
           </div>
         </div>
-        
+
         <!-- Email Input -->
         <div>
-          <input 
-            formControlName="email" 
-            type="email" 
+          <input
+            formControlName="email"
+            type="email"
             placeholder="Your Email"
             [ngClass]="{'border-red-500': contactForm.get('email')?.invalid && contactForm.get('email')?.touched}"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none placeholder-gray-400"
@@ -65,12 +67,12 @@
             A valid email is required.
           </div>
         </div>
-        
+
         <!-- Title Input -->
         <div>
-          <input 
-            formControlName="title" 
-            type="text" 
+          <input
+            formControlName="title"
+            type="text"
             placeholder="Title"
             [ngClass]="{'border-red-500': contactForm.get('title')?.invalid && contactForm.get('title')?.touched}"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none placeholder-gray-400"
@@ -79,11 +81,11 @@
             Title is required.
           </div>
         </div>
-        
+
         <!-- Message Textarea -->
         <div>
-          <textarea 
-            formControlName="message" 
+          <textarea
+            formControlName="message"
             placeholder="Message"
             rows="6"
             [ngClass]="{'border-red-500': contactForm.get('message')?.invalid && contactForm.get('message')?.touched}"
@@ -93,19 +95,20 @@
             Message is required.
           </div>
         </div>
-        
+
         <!-- Submit Button -->
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           [disabled]="contactForm.invalid"
-          class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg transition duration-200 text-lg"
+          class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-200 text-lg"
+          style="background-color: #7A1CFF;"
         >
           SUBMIT
         </button>
-        
+
       </form>
     </div>
-    
+
   </div>
 </div>
 

@@ -12,6 +12,15 @@
   align-items: center;
 }
 
+.logo-section {
+  margin-bottom: 10px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .image-section img {
   width: 100%;
   height: 100%;
