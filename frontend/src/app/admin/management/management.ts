@@ -29,13 +29,28 @@ export class Management implements OnInit {
     private router: Router,
     private userService: UserService,
     private authService: LoginService,
-    private http: HttpClient
+    private http: HttpClient,
+    private login: LoginService
   ) {}
 
-  //Ejecuta al iniciar el componente
+  loading = true;
+  isAdmin = false;
   ngOnInit(): void {
-    this.loadUsers();
-    this.loadModels();
+    const rol = this.login.getRol();
+
+    if (rol !== 'admin') {
+      this.router.navigate(['/upload']);
+      return;  // para no ejecutar el resto de la pantalla
+    }
+
+  // si llegó aquí, significa que es admin
+  this.isAdmin = true;
+  this.loading = false;
+
+
+
+  this.loadUsers();
+  this.loadModels();
   }
 
   // Cargar usuarios
@@ -50,13 +65,28 @@ export class Management implements OnInit {
 
   // Crear o actualizar usuario
   saveUser() {
+      // Validación para contraseña al crear
+  if (!this.selectedUserId) {
+    if (this.password.length < 5) {
+      alert('La contraseña debe tener al menos 5 caracteres.');
+      return;
+    }
+  }
+
+  // ✨ Validación para contraseña al editar (solo si quiere cambiar la contraseña)
+  if (this.selectedUserId) {
+    if (this.password !== '' && this.password.length < 5) {
+      alert('La nueva contraseña debe tener al menos 5 caracteres.');
+      return;
+    }
+  }
     if (this.selectedUserId) {
       // Update
       const updatedUser: User = {
         id: this.selectedUserId,
         nombre: this.nombre,
         username: this.username,
-        password: this.password, // puede estar vacío
+        password: this.password, // puede estar vacío para la actualización
         rol: 'user',
         disabled: false
       };
@@ -72,7 +102,7 @@ export class Management implements OnInit {
 
     } else {
       // Create
-      // creamos un nuevo usuario con los datos del formulario
+      // Creamos un nuevo usuario con los datos del formulario
       const newUser: User = {
         nombre: this.nombre,
         username: this.username,
@@ -80,7 +110,7 @@ export class Management implements OnInit {
         rol: 'user',
         disabled: false
       };
-      // le pasamos el nuevo usuario al servicio para que lo cree en el backend
+      // lo pasamos al backend para que lo cree
       this.userService.createUser(newUser).subscribe({
         next: () => {
           alert('Usuario creado con éxito');
@@ -100,7 +130,7 @@ export class Management implements OnInit {
     if (user) {
       this.nombre = user.nombre;
       this.username = user.username;
-      this.password = ''; // vacío → admin debe escribir una nueva si quiere cambiarla
+      this.password = ''; // no se cambia a menos de que se escriba una nueva
     }
   }
 
@@ -126,8 +156,8 @@ export class Management implements OnInit {
     this.password = '';
     this.selectedUserId = null;
   }
-  //Logout
 
+  //Logout
   logout() {
     this.authService.logout().subscribe({
       next: () => {
@@ -143,6 +173,7 @@ export class Management implements OnInit {
       }
     });
   }
+
  // Cargar lista de modelos
  loadModels(): void {
   this.http.get<{ models: string[] }>('http://localhost:8000/models/get_models')
@@ -177,5 +208,12 @@ changeModel(): void {
         alert('No se pudo cambiar el modelo.');
       }
     });
+}
+
+openManual(){
+  const link = document.createElement('a');
+    link.href = '/assets/Admin_Manual.pdf';
+    link.download = 'Admin_Manual.pdf';
+    link.click();
 }
 }

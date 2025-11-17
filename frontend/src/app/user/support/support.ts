@@ -22,13 +22,13 @@ export class Support implements OnInit {
     private fb: FormBuilder,
     private authService: LoginService,
     private router: Router,
-    private commentService: CommentService   
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/.*\..*/)]],
       title: ['', Validators.required],
       message: ['', Validators.required]
     });
@@ -36,6 +36,13 @@ export class Support implements OnInit {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+
+  downloadManual() {
+    const link = document.createElement('a');
+    link.href = '/assets/User_Manual.pdf';
+    link.download = 'User_Manual.pdf';
+    link.click();
   }
 
   onSubmit() {
@@ -62,17 +69,4 @@ export class Support implements OnInit {
     });
   }
 
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (err: any) => {
-        console.error('Error en logout:', err);
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
-        this.router.navigate(['/']);
-      }
-    });
-  }
 }

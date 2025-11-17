@@ -1,12 +1,12 @@
-<!-- Aquí va tu HEADER component -->
 <app-header-admin></app-header-admin>
+<div *ngIf="!loading && isAdmin; else noAccess">
 
 <div class="min-h-screen bg-gray-300 px-4 py-6">
   <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- Classification Records Section -->
+    <!-- Seccion de arriba -->
     <div class="bg-gray-400 rounded-lg p-4 flex items-center justify-between">
-      <!-- Left side - Image and Info -->
+      <!-- Imagen y total -->
       <div class="flex items-center space-x-4">
         <img src="assets/logo_blanco_morado.jpg" alt="Chest X-ray" class="w-16 h-16 rounded-lg">
         <div>
@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Botones derecha-->
       <div class="flex space-x-2">
         <button
           class="text-white px-4 py-2 rounded text-sm transition"
@@ -37,10 +37,10 @@
       </div>
     </div>
 
-    <!-- Main Content Grid -->
+    <!-- Seccion baja -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
-      <!-- Left Column - Classification Overview -->
+      <!-- Izquierda - Classification Overview -->
       <div class="bg-gray-400 rounded-lg p-3 self-start">
         <div class="flex items-center space-x-2 mb-3">
           <div
@@ -52,7 +52,7 @@
           </div>
           <h3 class="text-lg font-bold text-black">Classification Overview</h3>
         </div>
-        <!-- Classification Table -->
+        <!-- Tabla de Clasificaccion -->
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
@@ -98,9 +98,9 @@
         </div>
       </div>
 
-      <!-- Right Column -->
+      <!-- Derecha  -->
       <div class="space-y-6">
-        <!-- Filters Section -->
+        <!-- Filtros -->
         <div class="bg-gray-400 rounded-lg p-4">
           <div class="flex items-center space-x-2 mb-4">
             <div
@@ -113,7 +113,7 @@
             <h3 class="text-lg font-bold text-black">Filters</h3>
           </div>
 
-          <!-- Time Filter Buttons -->
+          <!-- Botones de filtro -->
           <div class="flex space-x-2 mt-4">
             <button
               class="px-3 py-1 rounded text-sm text-white"
@@ -148,4 +148,11 @@
       </div>
     </div>
   </div>
+  </div>
 </div>
+
+<ng-template #noAccess>
+  <div class="text-center text-red-500 font-bold">
+    Access Denied
+  </div>
+</ng-template>

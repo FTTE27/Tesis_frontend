@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HeaderAdmin } from '../header-admin/header-admin';
 import { RecordsService, Registro } from '../../services/records_service';
 import { CommonModule } from '@angular/common';
 import { ExportService } from '../../services/export_service';
+import { LoginService } from '../../services/login_services';
 
 @Component({
   selector: 'app-records',
@@ -15,15 +17,15 @@ export class Records implements OnInit {
   registrosOriginal: Registro[] = [];   // todos los registros del backend
   registrosFiltrados: Registro[] = [];  // los que se muestran tras filtrar
 
-    // Estos son los registros que el HTML espera
-    get records(): Registro[] {
-      return this.registrosFiltrados;
-    }
+  // Estos son los registros que el HTML espera
+  get records(): Registro[] {
+    return this.registrosFiltrados;
+  }
 
   // Valores posibles de estado
   estados: string[] = ['DN.keras', 'CNN.keras', 'IN.keras'];
 
-  activeFilter: string = 'daily'; // Por defecto el primero
+  activeFilter: string = 'daily'; // Filtro por defecto de el diagrama de barras
 
   // Datos para el gráfico de barras
   chartLabels: string[] = [];
@@ -44,11 +46,29 @@ export class Records implements OnInit {
   probMinNormal: number | null = null;
   probMaxNormal: number | null = null;
 
-  constructor(private recordsService: RecordsService, private exportService: ExportService) {}
+  constructor(private recordsService: RecordsService,
+              private login: LoginService,
+              private router: Router,
+              private exportService: ExportService) {}
 
 
+
+  isAdmin = false;
+  loading = true;
   ngOnInit(): void {
-    this.recordsService.getAllRecords().subscribe({
+
+  const rol = this.login.getRol();
+
+    if (rol !== 'admin') {
+        this.router.navigate(['/upload']);
+        return;  // para no ejecutar el resto de la pantalla
+    }
+
+  // si llegó aquí, significa que es admin
+  this.isAdmin = true;
+  this.loading = false;
+
+  this.recordsService.getAllRecords().subscribe({
       next: (data) => {
 
         this.registrosOriginal = data.map(r => ({...r,  diagnostico: this.getDiagnosis(r) }));
@@ -90,7 +110,6 @@ export class Records implements OnInit {
         filtroProbNormalOk;
 });
   }
-
   // Limpia filtros y muestra todo
   clearFilters() {
     this.filtroEstado = '';
@@ -201,7 +220,7 @@ filterBy(period: 'daily' | 'weekly' ): void {
   }
 
   // actualizar gráfico
-  this.updateChart(labels, counts);
+ this.updateChart(labels, counts);
 }
 
 

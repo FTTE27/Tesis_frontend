@@ -1,23 +1,44 @@
-<div class="container">
-  <div class="image-section">
+<div class="login-container">
+
+  <div class="login-image-section">
     <img src="assets/home-image.jpg" alt="Radiografía">
   </div>
-  <div class="content-section">
-    <div class="main-content">
-      <div class="logo-section">
-      <img src="assets/nombre_morado_blanco.jpg" alt="Radiografía">
+
+  <div class="login-content-section">
+    <div class="login-main-content">
+
+      <div class="login-logo-section">
+        <img src="assets/nombre_morado_blanco.jpg" alt="Radiografía">
       </div>
 
-      <p>Enter to your account</p>
+      <p class="login-text">Enter to your account</p>
 
-      <input type="text" placeholder="User" [(ngModel)]="username" class="btn">
-      <input type="password" placeholder="Password" [(ngModel)]="password" class="btn">
+      <input
+        type="text"
+        placeholder="User"
+        [(ngModel)]="username"
+        class="login-input"
+      >
 
-      <button class="btn btn-login" (click)="goToClassifier()">Log In</button>
-      <!--<button class="btn btn-return" (click)="goToReturn()">Return</button> -->
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        class="login-input"
+      >
+
+      <button
+        class="login-btn login-btn-login"
+        (click)="goToClassifier()"
+      >
+        Log In
+      </button>
+
     </div>
-    <footer>
-      Created by: Juan Andrés Vásquez - Andrés Felipe Ruge
-    </footer>
   </div>
+
 </div>
+
+<footer class="login-footer">
+  Hecho por Andres Vasquez y Andres Ruge
+</footer>

@@ -1,4 +1,5 @@
 <app-header-admin></app-header-admin>
+<div *ngIf="!loading && isAdmin; else noAccess">
 
 <!-- Barra de búsqueda -->
 <div class="flex items-center m-4 max-w-md">
@@ -16,14 +17,14 @@
     class="flex-1 px-4 py-2 border border-gray-300 rounded-r-full focus:outline-none" />
 </div>
 
-<!-- CONTENEDOR FLEX PARA PANEL IZQ + PANEL DER -->
+<!-- Contendor flexible divirlo en dos -->
 <div class="flex h-screen">
   <!-- Panel izquierdo -->
   <div class="w-1/3 bg-gray-300 p-4">
     <h2 class="font-bold mb-4">Comments</h2>
     <!-- Iteración, recorre los comentarios filtrados -->
     @for (item of filteredComments(); track $index) {
-      <!-- Cada comentario se renderiza como una "tarjeta" -->
+      <!-- Cada comentario es como una "tarjeta" a la que se accede uno por uno -->
       <div
         (click)="selectComment(item)"
         class="cursor-pointer bg-white shadow rounded-lg p-3 mb-3 hover:bg-gray-100 transition">
@@ -38,13 +39,13 @@
   </div>
 
   <!-- Panel derecho -->
-  <div class="w-2/3 p-6 relative">
+  <div class="w-2/3 bg-gray-300 p-6 relative">
     <!-- Solo se muestra si hay un comentario seleccionado -->
     @if (selectedComment) {
-      <h2 class="text-xl font-bold mb-2">{{ selectedComment.titulo }}</h2>
-      <p class="text-gray-600 mb-1">By {{ selectedComment.nombre }}</p>
-      <p class="text-gray-500 text-sm mb-4">{{ selectedComment.correo }}</p>
-      <p class="text-gray-800">{{ selectedComment.mensaje }}</p>
+      <h2 class="text-xl font-bold mb-2 text-[50px]">{{ selectedComment.titulo }}</h2>
+      <p class="text-gray-600 mb-1 text-[30px]">By {{ selectedComment.nombre }}</p>
+      <p class="text-gray-500 text-[30px]">{{ selectedComment.correo }}</p>
+      <p class="text-gray-800 text-[40px]">{{ selectedComment.mensaje }}</p>
 
       <button
         *ngIf="selectedComment?.id !== undefined"
@@ -60,3 +61,10 @@
     }
   </div>
 </div>
+</div>
+
+<ng-template #noAccess>
+  <div class="text-center text-red-500 font-bold">
+    Access Denied
+  </div>
+</ng-template>

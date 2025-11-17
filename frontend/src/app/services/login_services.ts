@@ -14,9 +14,38 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'http://192.168.1.4:8000/auth'; // Base de la API
+  private baseUrl = 'http://localhost:8000/auth'; // Base de la API
 
   constructor(private http: HttpClient) {}
+
+  // --- Helpers seguros para localStorage ------------------------------------------------
+  private safeGetLocalStorageItem(key: string): string | null {
+    try {
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') return null;
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  private safeSetLocalStorageItem(key: string, value: string): void {
+    try {
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
+      localStorage.setItem(key, value);
+    } catch {
+      // ignorar errores de escritura
+    }
+  }
+
+  private safeRemoveLocalStorageItem(key: string): void {
+    try {
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
+      localStorage.removeItem(key);
+    } catch {
+      // ignorar
+    }
+  }
+  // ------------------------------------------------------------------------------------
 
   // Método para hacer login usando FastAPI
   login(username: string, password: string): Observable<LoginResponse> {
@@ -28,11 +57,11 @@ export class LoginService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-   
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, body.toString(), { headers }).pipe(
       tap((res: LoginResponse) => {
-        localStorage.setItem('token', res.access_token);
-        localStorage.setItem('rol', res.rol);
+        // Usar setters seguros
+        this.safeSetLocalStorageItem('token', res.access_token);
+        this.safeSetLocalStorageItem('rol', res.rol);
       }),
       catchError(this.handleError)
     );
@@ -42,8 +71,8 @@ export class LoginService {
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {}, {}).pipe(
       tap(() => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
+        this.safeRemoveLocalStorageItem('token');
+        this.safeRemoveLocalStorageItem('rol');
       })
     );
   }
@@ -56,15 +85,56 @@ export class LoginService {
     return throwError(() => msg);
   }
 
+  // Intenta decodificar JWT (payload) de forma segura y devolver el objeto,
+  // o null si falla. No requiere librería externa.
+  private parseJwt(token: string | null): any | null {
+    if (!token) return null;
+    try {
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+      const payload = parts[1];
+      // atob puede fallar en algunos entornos; protegerlo
+      if (typeof window === 'undefined' || typeof atob === 'undefined') {
+        // no estamos en navegador o atob no existe: no podemos decodificar
+        return null;
+      }
+      // decode base64url
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      // pad base64 string
+      const pad = base64.length % 4;
+      const padded = base64 + (pad ? '='.repeat(4 - pad) : '');
+      // atob -> decodeURIComponent(escape(...)) to handle UTF-8
+      const json = decodeURIComponent(escape(atob(padded)));
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
+  }
+
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return this.safeGetLocalStorageItem('token');
   }
 
   getRol(): string | null {
-    return localStorage.getItem('rol');
+    return this.safeGetLocalStorageItem('rol');
   }
 
+  // Comprueba si hay token y (si es decodificable) que no esté expirado.
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) return false;
+
+    const payload = this.parseJwt(token);
+    if (payload && payload.exp) {
+      try {
+        // exp viene en segundos desde epoch
+        return payload.exp * 1000 > Date.now();
+      } catch {
+        return true; // si algo raro pasa, devolvemos true por fallback (pero token existe)
+      }
+    }
+
+    // Si no se pudo decodificar, al menos existe token -> considerarlo logueado
+    return true;
   }
 }

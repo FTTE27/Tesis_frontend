@@ -1,17 +1,16 @@
 .container {
     display: flex;
-    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    height: 100vh;
   }
-  
+
   .left-box {
     width: 30%;
-    background-color: #e3e3e3; /* gris claro para diferenciar */
+    background-color: #e3e3e3;
     padding: 20px;
   }
-  
+
   .right-box {
     width: 70%;
-    background-color: #cce5ff; /* azul claro */
+    background-color: #cce5ff;
     padding: 20px;
   }
-  
