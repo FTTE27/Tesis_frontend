@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-// Estructura exacta de lo que esperamos del backend al iniciar sesión.
+// Estructura de lo que esperamos del backend.
 interface LoginResponse {
   access_token: string;
   token_type: string;
@@ -14,11 +14,10 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'http://localhost:8000/auth'; // Base de la API
+  private baseUrl = 'http://localhost:8000/auth';
 
   constructor(private http: HttpClient) {}
 
-  // --- Helpers seguros para localStorage ------------------------------------------------
   private safeGetLocalStorageItem(key: string): string | null {
     try {
       if (typeof window === 'undefined' || typeof localStorage === 'undefined') return null;
@@ -33,7 +32,7 @@ export class LoginService {
       if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
       localStorage.setItem(key, value);
     } catch {
-      // ignorar errores de escritura
+
     }
   }
 
@@ -42,12 +41,12 @@ export class LoginService {
       if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
       localStorage.removeItem(key);
     } catch {
-      // ignorar
+
     }
   }
-  // ------------------------------------------------------------------------------------
 
-  // Método para hacer login usando FastAPI
+
+  // Login
   login(username: string, password: string): Observable<LoginResponse> {
     const body = new URLSearchParams();
     body.set('username', username);
@@ -67,7 +66,7 @@ export class LoginService {
     );
   }
 
-  // logout → sigue en /logout
+  // logout
   logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {}, {}).pipe(
       tap(() => {
@@ -85,25 +84,19 @@ export class LoginService {
     return throwError(() => msg);
   }
 
-  // Intenta decodificar JWT (payload) de forma segura y devolver el objeto,
-  // o null si falla. No requiere librería externa.
+  // Intenta decodificar JWT y devolver el objeto,
   private parseJwt(token: string | null): any | null {
     if (!token) return null;
     try {
       const parts = token.split('.');
       if (parts.length < 2) return null;
       const payload = parts[1];
-      // atob puede fallar en algunos entornos; protegerlo
       if (typeof window === 'undefined' || typeof atob === 'undefined') {
-        // no estamos en navegador o atob no existe: no podemos decodificar
         return null;
       }
-      // decode base64url
       const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-      // pad base64 string
       const pad = base64.length % 4;
       const padded = base64 + (pad ? '='.repeat(4 - pad) : '');
-      // atob -> decodeURIComponent(escape(...)) to handle UTF-8
       const json = decodeURIComponent(escape(atob(padded)));
       return JSON.parse(json);
     } catch {
@@ -119,7 +112,7 @@ export class LoginService {
     return this.safeGetLocalStorageItem('rol');
   }
 
-  // Comprueba si hay token y (si es decodificable) que no esté expirado.
+  // Comprueba si hay token y que no esté expirado.
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
@@ -127,14 +120,13 @@ export class LoginService {
     const payload = this.parseJwt(token);
     if (payload && payload.exp) {
       try {
-        // exp viene en segundos desde epoch
         return payload.exp * 1000 > Date.now();
       } catch {
-        return true; // si algo raro pasa, devolvemos true por fallback (pero token existe)
+        return true;
       }
     }
 
-    // Si no se pudo decodificar, al menos existe token -> considerarlo logueado
+    // Si no se pudo decodificar pero existe token, considerarlo logueado
     return true;
   }
 }

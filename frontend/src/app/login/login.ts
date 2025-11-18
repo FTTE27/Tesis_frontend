@@ -18,7 +18,7 @@ export class Login {
   constructor(private loginService: LoginService, private router: Router) {}
 
   goToClassifier() {
-    // hace un POST al backend con las credenciales.
+    // Hace un POST al backend con las credenciales.
     // Como login() devuelve un Observable, toca suscribirse
     this.loginService.login(this.username, this.password).subscribe({
 
@@ -31,7 +31,7 @@ export class Login {
         }
       },
       error: (err) => {
-        alert(err); // Muestra error al usuario (ej: "Usuario incorrecto")
+        alert(err); // Muestra error al usuario
       }
     });
 

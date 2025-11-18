@@ -81,7 +81,6 @@ exportSingleRecordPDF(record: Registro) {
     return;
   }
 
-  // Convertir radiografía desde base64 (si existe)
   const radiografiaBase64 = record.radiografia
     ? `data:image/png;base64,${record.radiografia}`
     : null;

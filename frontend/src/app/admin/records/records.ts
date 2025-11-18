@@ -17,12 +17,11 @@ export class Records implements OnInit {
   registrosOriginal: Registro[] = [];   // todos los registros del backend
   registrosFiltrados: Registro[] = [];  // los que se muestran tras filtrar
 
-  // Estos son los registros que el HTML espera
   get records(): Registro[] {
     return this.registrosFiltrados;
   }
 
-  // Valores posibles de estado
+  // Modelos disponibles
   estados: string[] = ['DN.keras', 'CNN.keras', 'IN.keras'];
 
   activeFilter: string = 'daily'; // Filtro por defecto de el diagrama de barras
@@ -61,7 +60,7 @@ export class Records implements OnInit {
 
     if (rol !== 'admin') {
         this.router.navigate(['/upload']);
-        return;  // para no ejecutar el resto de la pantalla
+       return;  // para no ejecutar el resto de la pantalla
     }
 
   // si llegó aquí, significa que es admin
@@ -143,6 +142,10 @@ export class Records implements OnInit {
 
   // Elimina todos los registros
   deleteAll() {
+    const confirmed = window.confirm('¿Está seguro de eliminar todos los registros?');
+    if (!confirmed) {
+      return;
+    }
     this.registrosOriginal = [];
     this.registrosFiltrados = [];
     this.chartLabels = [];
@@ -154,10 +157,10 @@ export class Records implements OnInit {
   private parseLocalDate(dateString: string): Date {
     // Formato: YYYY-MM-DD
     const [year, month, day] = dateString.split('-').map(Number);
-    return new Date(year, month - 1, day); // Local sin problemas de UTC
+    return new Date(year, month - 1, day);
   }
 
-  // función que determina el diagnóstico más probable
+  // Función que determina el diagnóstico más probable
   getDiagnosis(record: Registro): string {
     const probs = {
       Normal: record.probabilidad_sano,
@@ -174,7 +177,7 @@ export class Records implements OnInit {
     return maxKey.toUpperCase(); // poner en mayúsculas
   }
 
-  // Filtra los registros por día, semana, mes o año y actualiza el gráfico
+  // Filtra los registros por día o semana y actualiza el gráfico
 filterBy(period: 'daily' | 'weekly' ): void {
   const now = new Date();
   let labels: string[] = [];

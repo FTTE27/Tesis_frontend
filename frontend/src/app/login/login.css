@@ -1,4 +1,3 @@
-/* CONTENEDOR PRINCIPAL DEL LOGIN */
 .login-container {
   display: flex;
   height: 100vh;
@@ -6,7 +5,6 @@
   overflow: hidden;
 }
 
-/* SECCIÓN DE LA IMAGEN */
 .login-image-section {
   flex: 1 1 50%;
   display: flex;
@@ -24,7 +22,6 @@
   max-height: 100%;
 }
 
-/* SECCIÓN DE CONTENIDO (LADO DERECHO) */
 .login-content-section {
   flex: 1 1 50%;
   background-color: #fff;
@@ -35,7 +32,6 @@
   min-width: 0;
 }
 
-/* CONTENIDO CENTRAL */
 .login-main-content {
   width: 100%;
   display: flex;
@@ -46,7 +42,6 @@
   font-size: 30px;
 }
 
-/* LOGO */
 .login-logo-section {
   display: flex;
   justify-content: center;
@@ -59,7 +54,6 @@
   height: auto;
 }
 
-/* TEXTO “Enter to your account” */
 .login-text {
   margin-bottom: 50px;
   text-align: center;
@@ -67,7 +61,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* INPUTS */
 .login-input {
   width: 280px;
   padding: 14px;
@@ -79,7 +72,6 @@
   outline: none;
 }
 
-/* BOTONES */
 .login-btn {
   width: 280px;
   padding: 14px;
@@ -90,13 +82,11 @@
   cursor: pointer;
 }
 
-/* BOTÓN LOGIN */
 .login-btn-login {
   background-color: #7a1cff;
   color: white;
 }
 
-/* FOOTER DEL LOGIN */
 .login-footer {
   position: fixed;
   bottom: 0;

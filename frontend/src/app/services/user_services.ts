@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface User {
-  id?: number;        // lo maneja backend
+  id?: number;
   nombre: string;
   username: string;
   password?: string;  // solo se envía al crear
@@ -16,7 +16,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://192.168.1.4:8000/usuarios'; // ajusta al endpoint real
+  private apiUrl = 'http://localhost:8000/usuarios';
 
   constructor(private http: HttpClient) {}
 
@@ -26,12 +26,12 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  // Obtener todos los usuarios (filtraremos en el front los que sean role=user)
+  // Obtener todos los usuarios de rol usuario
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
-  
+
 
   // Actualizar usuario
   updateUser(id: number, user: User): Observable<User> {
@@ -39,12 +39,12 @@ export class UserService {
       nombre: user.nombre,
       username: user.username
     };
-    
+
     // Solo enviamos password si el admin escribió una nueva
     if (user.password && user.password.trim() !== '') {
         body.password = user.password;
       }
-  
+
       return this.http.put<User>(`${this.apiUrl}/${id}`, body)
         .pipe(catchError(this.handleError));
     }

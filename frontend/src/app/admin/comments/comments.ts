@@ -46,7 +46,6 @@ export class Comments implements OnInit {
   loadComments() {
     this.commentService.getAllComments().subscribe({
       next: (data) => {
-         // Cuando el backend responde correctamente, llenamos el arreglo de comentarios
         this.comments = data;
       },
       error: (err) => {

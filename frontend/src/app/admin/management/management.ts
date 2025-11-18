@@ -73,7 +73,7 @@ export class Management implements OnInit {
     }
   }
 
-  // ✨ Validación para contraseña al editar (solo si quiere cambiar la contraseña)
+  // Validación para contraseña al editar (solo si quiere cambiar la contraseña)
   if (this.selectedUserId) {
     if (this.password !== '' && this.password.length < 5) {
       alert('La nueva contraseña debe tener al menos 5 caracteres.');

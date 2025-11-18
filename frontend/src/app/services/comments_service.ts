@@ -11,12 +11,11 @@ export interface CommentModel {
   correo: string;
 }
 
-//Indica que este servicio es inyectable y estará disponible en toda la aplicación
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-  private apiUrl = 'http://192.168.1.4:8000/comentarios';
+  private apiUrl = 'http://localhost:8000/comentarios';
 
   constructor(private http: HttpClient) {}
 

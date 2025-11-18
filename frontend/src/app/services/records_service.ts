@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Modelo de Registro (lo afinamos más abajo)
+// Modelo de Registro
 export interface Registro {
     id: number;
-    fecha: string;                 
-    hora: string;                  
-    estado: string;                // DN.keras | CNN.keras | IN.keras
+    fecha: string;
+    hora: string;
+    estado: string;
     probabilidad_viral: number;
     probabilidad_bacteriana: number;
     probabilidad_sano: number;
@@ -21,7 +21,7 @@ export interface Registro {
   providedIn: 'root'
 })
 export class RecordsService {
-  private apiUrl = 'http://192.168.1.4:8000/registros';
+  private apiUrl = 'http://localhost:8000/registros';
 
   constructor(private http: HttpClient) {}
 

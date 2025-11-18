@@ -3,10 +3,10 @@
 <div class="min-h-screen bg-gray-50 px-4 py-8">
   <div class="max-w-6xl mx-auto">
 
-    <!-- Top Section - 2 Cards -->
+    <!-- Seccion de arriba - 2 partes -->
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8">
 
-      <!-- User Manual Card -->
+      <!-- Manual de Usuario -->
       <div class="bg-white rounded-lg shadow-md p-6 text-center">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">User Manual</h2>
         <button
@@ -21,13 +21,13 @@
 
     </div>
 
-    <!-- Contact Form -->
+    <!-- Formato de contacto -->
     <div class="bg-white rounded-lg shadow-md p-8">
       <h2 class="text-xl font-semibold text-gray-800 mb-6">Contact Form</h2>
 
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-4">
 
-        <!-- Name Input -->
+        <!-- Nombre -->
         <div>
           <input
             formControlName="name"
@@ -41,7 +41,7 @@
           </div>
         </div>
 
-        <!-- Email Input -->
+        <!-- Email -->
         <div>
           <input
             formControlName="email"
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <!-- Title Input -->
+        <!-- Titulo -->
         <div>
           <input
             formControlName="title"
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <!-- Message Textarea -->
+        <!-- Mensaje -->
         <div>
           <textarea
             formControlName="message"
@@ -83,7 +83,7 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Enviar -->
         <button
           type="submit"
           [disabled]="contactForm.invalid"
